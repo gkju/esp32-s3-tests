@@ -46,18 +46,15 @@ void line_state_callback(bool connected)
 // the setup function runs once when you press reset or power the board
 void setup()
 {
-#if defined(ARDUINO_ARCH_MBED) && defined(ARDUINO_ARCH_RP2040)
-  // Manual begin() is required on core without built-in support for TinyUSB such as mbed rp2040
-  TinyUSB_Device_Init(0);
-#endif
   
   usb_web.setLandingPage(&landingPage);
   usb_web.setLineStateCallback(line_state_callback);
-  //usb_web.setStringDescriptor("TinyUSB WebUSB");
+  usb_web.setStringDescriptor("TinyUSB WebUSB");
   usb_web.begin();
 
   Serial.begin(115200);
 
+  Serial.println("TinyUSB WebUSB Serial example");
   // wait until device mounted
   while( !TinyUSBDevice.mounted() ) delay(1);
 
@@ -88,7 +85,7 @@ void loop()
 {
   uint8_t buf[64];
   uint32_t count;
-
+  Serial.println("TinyUSB WebUSB Serial example");
   // From Serial to both Serial & webUSB
   if (Serial.available())
   {
